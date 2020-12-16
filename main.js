@@ -85,7 +85,7 @@ function userApiData(data) {
     question.innerHTML = `Question: ${data.results[0].question}`
     containerQuestion.appendChild(question)
 
-    for (let i = 0; i < divs.length; i++) {
+    for (let i = 0; i < button.length; i++) {
         
         const button = document.createElement('button')
         button.innerHTML = button[i]
