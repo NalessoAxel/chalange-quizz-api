@@ -26,7 +26,7 @@ containerLvlCat.classList.add('hide')
 const minuteur = document.querySelector('.minuteur')
 minuteur.classList.add('hide')
 const timer = document.querySelector('.timer')
-
+body.appendChild(minuteur)
 minuteur.appendChild(timer)
 body.appendChild(container)
 container.appendChild(title)
@@ -39,28 +39,7 @@ container.appendChild(containerLvlCat)
 
 window.onload = sendApiRequest()
 startBtn.addEventListener('click', startGame)
-function startGame() {
-    let sec = 60;
-    let interval = setInterval(function () {
-        sec--;
-        let min = Math.floor(sec / 60)
-        timer.innerHTML = 'Timer : ' + (sec - (min * 60)) + ' sec'
-        if (sec == 0) {
-            clearInterval(interval)
-
-            alert('Out of time bro!')
-            window.location = ''
-        }
-    }, 1000)
-    startBtn.classList.add('hide')
-    containerQuestion.classList.remove('hide')
-    containerAnswer.classList.add('hide')
-    containerLvlCat.classList.remove('hide')
-    title.classList.add('hide')
-    title2.classList.remove('hide')
-    minuteur.classList.remove('hide')
-}
-
+const button = ['data.results[0].correct_answer', 'data.results[0].incorrect_answers[0]', 'data.results[0].incorrect_answers[1]', 'data.results[0].incorrect_answers[2]']
 async function sendApiRequest() {
     let response = await fetch(`https://opentdb.com/api.php?amount=1&type=multiple`)
     console.log(response);
@@ -68,7 +47,6 @@ async function sendApiRequest() {
     console.log(data);
     userApiData(data)
 }
-const button = ['answer1', 'answer2', 'answer3', 'answer4']
 
 function userApiData(data) {
 
@@ -85,13 +63,8 @@ function userApiData(data) {
     question.innerHTML = `Question: ${data.results[0].question}`
     containerQuestion.appendChild(question)
 
-    for (let i = 0; i < button.length; i++) {
-        
-        const button = document.createElement('button')
-        button.innerHTML = button[i]
-        containerAnswer.appendChild(button)
-        button.classList.add('btn')
-    
+
+
     // button.innerHTML = data.results[0].correct_answer
     // button.innerHTML = data.results[0].incorrect_answers[0]   
     // button.innerHTML = data.results[0].incorrect_answers[1]
@@ -132,5 +105,38 @@ function userApiData(data) {
         }
     })
 }
+
+
+function startGame() {
+    let sec = 60;
+    let interval = setInterval(function () {
+        sec--;
+        let min = Math.floor(sec / 60)
+        timer.innerHTML = 'Timer : ' + (sec - (min * 60)) + ' sec'
+        if (sec == 0) {
+            clearInterval(interval)
+
+            alert('Out of time bro!')
+            window.location = ''
+        }
+    }, 1000)
+    startBtn.classList.add('hide')
+    containerQuestion.classList.remove('hide')
+
+    containerLvlCat.classList.remove('hide')
+    title.classList.add('hide')
+    title2.classList.remove('hide')
+    minuteur.classList.remove('hide')
+
+    for (let i = 0; i < button.length; i++) {
+
+        const button = document.createElement('button')
+        button.innerHTML = button[i]
+        containerAnswer.appendChild(button)
+        button.classList.add('btn')
+    }
+
+
+
 
 }
